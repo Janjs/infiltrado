@@ -17,3 +17,7 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.title {
+  color: rgb(124, 126, 2)
+}

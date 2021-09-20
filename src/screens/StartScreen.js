@@ -3,6 +3,7 @@ import '../App.css';
 import { getDatabase, ref, set } from "firebase/database";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import { Link } from "react-router-dom";
 
 export const StartScreen = () => {
     const database = getDatabase();
@@ -41,13 +42,17 @@ export const StartScreen = () => {
     }
 
     return (
-        <div className="start">
-            <h1>Inflitrado {usernameTitle}</h1>
+        <div>
+            <h1 className="title">Inflitrado {usernameTitle}</h1>
             {usernameAdded ?
                 <div className="start-buttons">
-                    <Button variant="outlined">Unirse</Button>
+                    <Link to="/join">
+                        <Button variant="outlined">Unirse</Button>
+                    </Link>
                     <div style={{ margin: 10 }}></div>
-                    <Button variant="outlined">Crear</Button>
+                    <Link to="/game">
+                        <Button variant="outlined">Crear</Button>
+                    </Link>
                 </div>
                 :
                 <div onKeyDown={handleEnterKey}>
