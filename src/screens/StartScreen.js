@@ -55,7 +55,7 @@ export const StartScreen = () => {
             <h1 className="title">Inflitrado</h1>
             {usernameAdded ?
                 <div className="start-buttons">
-                    <h3 className="title">Your username: {state.username}</h3>
+                    <h3>Your username: {state.username}</h3>
                     <Link to="/join" style={{ textDecoration: 'none' }}>
                         <Button variant="outlined">Join</Button>
                     </Link>

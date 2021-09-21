@@ -3,7 +3,7 @@ import * as React from 'react'
 export const game = {
     username: undefined,
     players: [],
-    gameId: undefined
+    roomNumber: undefined
 };
 
 const GameContext = React.createContext()
@@ -12,6 +12,9 @@ const gameReducer = (state, action) => {
     switch (action.type) {
         case 'SET_USERNAME': {
             return { ...state, username: action.payload }
+        }
+        case 'SET_ROOMNUMBER': {
+            return { ...state, roomNumber: action.payload }
         }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`)
