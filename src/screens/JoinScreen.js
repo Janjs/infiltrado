@@ -1,8 +1,13 @@
 import { TextField, Button } from '@mui/material';
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Divider } from '../components/Divider';
+import { GameContext } from '../context/GameContext';
+import { getDatabase, ref, set, push } from "firebase/database";
 
 export const JoinScreen = () => {
+    const db = getDatabase();
+    const { state, dispatch } = useContext(GameContext)
+
     const [roomNumber, setRoomNumber] = useState(null);
 
     const handleRoomNumberChange = (event) => {
@@ -11,7 +16,9 @@ export const JoinScreen = () => {
 
     const handleEnterKey = (e) => {
         if (e.keyCode === 13) {
-            console.log("Enter key pressed")
+            const roomNumberRef = ref(db, 'rooms/' + roomNumber);
+            const newRoomNumberRef = push(roomNumberRef);
+            set(newRoomNumberRef, state.username);
         }
     }
 
