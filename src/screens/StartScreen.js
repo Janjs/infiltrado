@@ -4,15 +4,24 @@ import { getDatabase, ref, set } from "firebase/database";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
+import { Divider } from '../components/Divider';
+import { GameContext } from '../context/GameContext';
 
 export const StartScreen = () => {
     const database = getDatabase();
 
+    const { state, dispatch } = React.useContext(GameContext)
+
     const [username, setUsername] = useState('');
-    const [usernameTitle, setUsernameTitle] = useState('');
     const [usernameError, setUsernameError] = useState('');
     const [usernameFTStatus, setUsernameFTStatus] = useState(false);
     const [usernameAdded, setUsernameAdded] = useState(false);
+
+    useEffect(() => {
+        if (state.username !== undefined) {
+            setUsernameAdded(true)
+        }
+    }, [])
 
     const writeUserData = (gameId, userName) => {
         /*
@@ -32,9 +41,9 @@ export const StartScreen = () => {
         if (e.keyCode === 13) {
             if (username === "") {
                 setUsernameFTStatus(true)
-                setUsernameError("Tu nombre de usuario no puede estar vacío.")
+                setUsernameError("Username cannot be empty.")
             } else {
-                setUsernameTitle(username)
+                dispatch({ type: "SET_USERNAME", payload: username })
                 setUsernameAdded(true)
                 writeUserData('1234', username)
             }
@@ -43,22 +52,23 @@ export const StartScreen = () => {
 
     return (
         <div>
-            <h1 className="title">Inflitrado {usernameTitle}</h1>
+            <h1 className="title">Inflitrado</h1>
             {usernameAdded ?
                 <div className="start-buttons">
-                    <Link to="/join">
-                        <Button variant="outlined">Unirse</Button>
+                    <h3 className="title">Your username: {state.username}</h3>
+                    <Link to="/join" style={{ textDecoration: 'none' }}>
+                        <Button variant="outlined">Join</Button>
                     </Link>
-                    <div style={{ margin: 10 }}></div>
-                    <Link to="/game">
-                        <Button variant="outlined">Crear</Button>
+                    <Divider />
+                    <Link to="/game" style={{ textDecoration: 'none' }}>
+                        <Button variant="outlined">Create</Button>
                     </Link>
                 </div>
                 :
                 <div onKeyDown={handleEnterKey}>
                     <TextField
                         id="outlined-basic"
-                        label="Nombre de usuario" variant="outlined"
+                        label="Username" variant="outlined"
                         onChange={handleUsernameChange}
                         helperText={usernameError}
                         error={usernameFTStatus}

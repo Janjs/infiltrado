@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 
 
-export const GameScreen = () => {
+export const LobbyScreen = () => {
 
     const [roomCode, setRoomCode] = useState("d");
 
-    useEffect (() => {
+    useEffect(() => {
         var randomNum = Math.floor(Math.random() * 9999)
         setRoomCode(randomNum)
     }, [])
@@ -13,9 +13,7 @@ export const GameScreen = () => {
     return (
 
         <div>
-            <div>The code of your room is:</div>
-            <div>{roomCode}</div> 
-
+            <h3>The code of your room is {roomCode}</h3>
         </div>
     )
 }
