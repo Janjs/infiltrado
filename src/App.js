@@ -14,7 +14,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={StartScreen} />
             <Route exact path="/join" component={JoinScreen} />
-            <Route exact path="/game" component={LobbyScreen} />
+            <Route exact path="/lobby" component={LobbyScreen} />
           </Switch>
         </BrowserRouter>
       </GameProvider>

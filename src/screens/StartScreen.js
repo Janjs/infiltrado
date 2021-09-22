@@ -48,7 +48,7 @@ export const StartScreen = () => {
                         <Button variant="outlined">Join</Button>
                     </Link>
                     <Divider />
-                    <Link to="/game" style={{ textDecoration: 'none' }}>
+                    <Link to="/lobby" style={{ textDecoration: 'none' }}>
                         <Button variant="outlined">Create</Button>
                     </Link>
                 </div>
