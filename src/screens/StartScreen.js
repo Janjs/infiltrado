@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
-import { getDatabase, ref, set } from "firebase/database";
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
@@ -8,8 +7,6 @@ import { Divider } from '../components/Divider';
 import { GameContext } from '../context/GameContext';
 
 export const StartScreen = () => {
-    const database = getDatabase();
-
     const { state, dispatch } = React.useContext(GameContext)
 
     const [username, setUsername] = useState('');
@@ -23,12 +20,8 @@ export const StartScreen = () => {
         }
     }, [])
 
-    const writeUserData = (gameId, userName) => {
-        /*
-        set(ref(database, 'games/' + gameId), {
-            users: [username],
-        });
-        */
+    const writeUserData = (gameId, username) => {
+        // TODO
     }
 
     const handleUsernameChange = (event) => {

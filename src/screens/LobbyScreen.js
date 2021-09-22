@@ -1,38 +1,22 @@
 import { useEffect, useState, useContext } from "react"
 import { GameContext } from '../context/GameContext';
-import { getDatabase, ref, set, get, child, onValue } from "firebase/database";
 import { useHistory } from "react-router-dom"
+import { addRoom } from "../api/apiFunctions";
 
 export const LobbyScreen = () => {
     let history = useHistory()
-    const db = getDatabase();
     const { state, dispatch } = useContext(GameContext)
 
     const [players, setPlayers] = useState([state.username])
 
     const getRoomNumber = () => {
-        let randomNum = Math.floor(Math.random() * 9999)
+        const roomNumber = addRoom(state.username)
 
-        const dbRef = ref(getDatabase());
-        get(child(dbRef, 'rooms/' + randomNum)).then((snapshot) => {
-            if (snapshot.exists()) {
-                getRoomNumber()
-            } else {
-                set(ref(db, 'rooms/' + randomNum), [state.username]);
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
-
-        return randomNum
+        return roomNumber
     }
 
     const listenForNewPlayers = () => {
-        const roomNumberRef = ref(db, 'rooms/' + state.roomNumber);
-        onValue(roomNumberRef, (data) => {
-            console.log(data.val())
-            setPlayers([...players, data.val()])
-        });
+
     }
 
     useEffect(() => {
@@ -50,8 +34,6 @@ export const LobbyScreen = () => {
     const listPlayers = players.map((player) =>
         <li>{player}</li>
     );
-
-    console.log(players)
 
     return (
         <div>

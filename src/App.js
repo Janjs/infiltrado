@@ -1,15 +1,13 @@
 import './App.css';
 import { StartScreen } from './screens/StartScreen';
-import { firebaseConfig } from './config';
 import { initializeApp } from 'firebase/app';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { JoinScreen } from './screens/JoinScreen';
 import { LobbyScreen } from './screens/LobbyScreen';
 import { GameProvider } from './context/GameContext';
+import './firebaseConfig'
 
 function App() {
-  const firebase = initializeApp(firebaseConfig);
-
   return (
     <div className="App">
       <GameProvider>
