@@ -1,6 +1,5 @@
 import './App.css';
 import { StartScreen } from './screens/StartScreen';
-import { initializeApp } from 'firebase/app';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { JoinScreen } from './screens/JoinScreen';
 import { LobbyScreen } from './screens/LobbyScreen';

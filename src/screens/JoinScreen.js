@@ -1,10 +1,11 @@
-import { TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 import { useState, useContext } from "react";
+import { joinRoom } from '../api/apiFunctions';
 import { Divider } from '../components/Divider';
 import { GameContext } from '../context/GameContext';
 
 export const JoinScreen = () => {
-    const { state, dispatch } = useContext(GameContext)
+    const { state } = useContext(GameContext)
 
     const [roomNumber, setRoomNumber] = useState(null);
 
@@ -14,7 +15,7 @@ export const JoinScreen = () => {
 
     const handleEnterKey = (e) => {
         if (e.keyCode === 13) {
-
+            joinRoom(roomNumber, state.username)
         }
     }
 

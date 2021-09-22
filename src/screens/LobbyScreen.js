@@ -1,43 +1,58 @@
-import { useEffect, useState, useContext } from "react"
+import { useEffect, useState, useContext, useRef } from "react"
 import { GameContext } from '../context/GameContext';
 import { useHistory } from "react-router-dom"
 import { addRoom } from "../api/apiFunctions";
+import { db } from "../firebaseConfig";
+import { doc, onSnapshot } from "firebase/firestore";
 
 export const LobbyScreen = () => {
     let history = useHistory()
-    const { state, dispatch } = useContext(GameContext)
+    const { state } = useContext(GameContext)
 
+    const [roomNumber, setRoomNumber] = useState(null)
     const [players, setPlayers] = useState([state.username])
+    const isFirstRender = useRef(true)
 
-    const getRoomNumber = () => {
-        const roomNumber = addRoom(state.username)
-
-        return roomNumber
-    }
-
-    const listenForNewPlayers = () => {
-
-    }
+    /*const createGame = () => {
+        // dispatch({ type: "SET_ROOMNUMBER", payload: roomNumber })
+    }*/
 
     useEffect(() => {
+        const getRoomNumber = async () => {
+            const roomNumber = await addRoom(state.username)
+            setRoomNumber(roomNumber)
+        }
+
         if (state.username === undefined) {
             history.push("/")
         } else {
-            const roomNumber = getRoomNumber()
-            dispatch({ type: "SET_ROOMNUMBER", payload: roomNumber })
-            listenForNewPlayers()
+            getRoomNumber()
         }
-    }, [])
+    }, [state.username, history])
 
-    const { roomNumber } = state
+    useEffect(() => {
+        const listenForNewPlayers = async () => {
+            onSnapshot(doc(db, "rooms", roomNumber), (doc) => {
+                if (doc.data() !== undefined) {
+                    setPlayers(doc.data().players)
+                }
+            });
+        }
+        // check if its first render
+        if (isFirstRender.current) {
+            isFirstRender.current = false
+            return;
+        }
+        listenForNewPlayers()
+    }, [roomNumber]);
 
     const listPlayers = players.map((player) =>
-        <li>{player}</li>
+        <li key={player}>{player}</li>
     );
 
     return (
         <div>
-            {roomNumber === undefined ?
+            {roomNumber === null ?
                 <h3>Loading...</h3>
                 :
                 <div>

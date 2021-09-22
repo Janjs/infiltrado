@@ -18,11 +18,7 @@ export const StartScreen = () => {
         if (state.username !== undefined) {
             setUsernameAdded(true)
         }
-    }, [])
-
-    const writeUserData = (gameId, username) => {
-        // TODO
-    }
+    }, [state.username])
 
     const handleUsernameChange = (event) => {
         setUsernameError('')
@@ -38,7 +34,6 @@ export const StartScreen = () => {
             } else {
                 dispatch({ type: "SET_USERNAME", payload: username })
                 setUsernameAdded(true)
-                writeUserData('1234', username)
             }
         }
     }

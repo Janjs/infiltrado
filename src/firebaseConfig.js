@@ -7,4 +7,6 @@ const firebaseApp = initializeApp({
     projectId: 'infiltrado-app'
 });
 
+console.log("Firebase connected " + JSON.stringify(firebaseApp))
+
 export const db = getFirestore();

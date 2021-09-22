@@ -16,6 +16,9 @@ const gameReducer = (state, action) => {
         case 'SET_ROOMNUMBER': {
             return { ...state, roomNumber: action.payload }
         }
+        case 'UPDATE_PLAYERS': {
+            return { ...state, players: [...state.players, action.payload] }
+        }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`)
         }
