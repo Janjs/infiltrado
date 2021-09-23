@@ -13,7 +13,10 @@ export const addRoom = async (username) => {
 
     await setDoc(doc(db, "rooms", randomNum), {
         host: username,
-        players: [username]
+        players: [username],
+        status: "LOBBY",
+        word: "",
+        infiltrat: ""
     });
 
     return randomNum
@@ -24,6 +27,23 @@ export const joinRoom = async (roomNumber, username) => {
 
     await updateDoc(roomRef, {
         players: arrayUnion(username)
+    });
+}
+
+export const startGame = async (roomNumber) => {
+    const roomRef = doc(db, "rooms", roomNumber);
+
+    await updateDoc(roomRef, {
+        status: "STARTED"
+    });
+}
+
+export const addWord = async (roomNumber, wordEntered, infiltrat) => {
+    const roomRef = doc(db, "rooms", roomNumber);
+
+    await updateDoc(roomRef, {
+        word: wordEntered,
+        infiltrat: infiltrat
     });
 }
 

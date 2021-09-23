@@ -3,7 +3,8 @@ import * as React from 'react'
 export const game = {
     username: undefined,
     players: [],
-    roomNumber: undefined
+    roomNumber: undefined,
+    isHost: false
 };
 
 const GameContext = React.createContext()
@@ -17,7 +18,10 @@ const gameReducer = (state, action) => {
             return { ...state, roomNumber: action.payload }
         }
         case 'UPDATE_PLAYERS': {
-            return { ...state, players: [...state.players, action.payload] }
+            return { ...state, players: action.payload }
+        }
+        case 'SET_ISHOST': {
+            return { ...state, isHost: action.payload }
         }
         default: {
             throw new Error(`Unhandled action type: ${action.type}`)

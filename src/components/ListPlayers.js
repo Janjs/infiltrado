@@ -3,14 +3,16 @@ import { db } from "../firebaseConfig";
 import { doc, onSnapshot } from "firebase/firestore";
 import { GameContext } from '../context/GameContext';
 import { Button } from "@mui/material";
+import { startGame } from "../api/apiFunctions";
+import { Redirect } from "react-router";
 
 export const ListPlayers = (props) => {
-    const { state } = useContext(GameContext)
+    const { state, dispatch } = useContext(GameContext)
     const { roomNumber } = props
 
     const [players, setPlayers] = useState([state.username])
     const [isHost, setIsHost] = useState(false)
-    const isFirstRender = useRef(true)
+    const [status, setStatus] = useState("LOBBY")
 
     const listPlayers = players.map((player) =>
         <li key={player}>{player}</li>
@@ -23,20 +25,33 @@ export const ListPlayers = (props) => {
                     setPlayers(doc.data().players)
                     if (state.username == doc.data().host) {
                         setIsHost(true)
+                        dispatch({ type: "SET_ISHOST", payload: true })
                     }
+                    setStatus(doc.data().status)
                 }
             });
         }
         listenForNewPlayers()
     }, []);
 
-    console.log(players)
+    const handleStartGamePressed = async () => {
+        dispatch({ type: "SET_ROOMNUMBER", payload: roomNumber })
+        dispatch({ type: "UPDATE_PLAYERS", payload: players })
+        await startGame(roomNumber)
+        setStatus("STARTED")
+    }
 
     return (
         <div>
-            <h3>The code of your room is {roomNumber}</h3>
-            <ul>{listPlayers}</ul>
-            {isHost && <Button variant="outlined" onClick={() => console.log("Start button pressed")}>Start Game</Button>}
+            {status !== "STARTED" ?
+                <div>
+                    <h3>The code of your room is {roomNumber}</h3>
+                    <ul>{listPlayers}</ul>
+                    {isHost && <Button variant="outlined" onClick={handleStartGamePressed}>Start Game</Button>}
+                </div>
+                :
+                <Redirect to="/game" />
+            }
         </div>
     )
 }

@@ -6,7 +6,7 @@ import { ListPlayers } from '../components/ListPlayers';
 import { GameContext } from '../context/GameContext';
 
 export const JoinScreen = () => {
-    const { state } = useContext(GameContext)
+    const { state, dispatch } = useContext(GameContext)
 
     const [roomNumber, setRoomNumber] = useState(null);
     const [joinedRoom, setJoinedRoom] = useState(false);
@@ -17,6 +17,7 @@ export const JoinScreen = () => {
 
     const handleEnterKey = async (e) => {
         if (e.keyCode === 13) {
+            dispatch({ type: "SET_ROOMNUMBER", payload: roomNumber })
             await joinRoom(roomNumber, state.username)
             setJoinedRoom(true)
         }

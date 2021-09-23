@@ -10,10 +10,6 @@ export const LobbyScreen = () => {
 
     const [roomNumber, setRoomNumber] = useState(null)
 
-    /*const createGame = () => {
-        // dispatch({ type: "SET_ROOMNUMBER", payload: roomNumber })
-    }*/
-
     useEffect(() => {
         const getRoomNumber = async () => {
             const generatedRoomNumber = await addRoom(state.username)
