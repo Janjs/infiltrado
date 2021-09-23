@@ -1,7 +1,7 @@
-import { useEffect, useState, useContext, useRef } from "react"
+import { useEffect, useState, useContext } from "react"
 import { GameContext } from '../context/GameContext';
-import { addWord } from "../api/apiFunctions";
-import { TextField } from "@mui/material";
+import { addWord, restartGame } from "../api/apiFunctions";
+import { Button, TextField } from "@mui/material";
 import { Divider } from "../components/Divider";
 import { db } from "../firebaseConfig";
 import { doc, onSnapshot } from "firebase/firestore";
@@ -36,7 +36,6 @@ export const GameScreen = () => {
                 let indexInfiltrat = getRandomInt(0, players.length - 1)
                 let infiltrat = players[indexInfiltrat]
                 setInfiltrat(infiltrat)
-                console.log(infiltrat)
                 await addWord(roomNumber, word, infiltrat)
             }
         }
@@ -52,7 +51,11 @@ export const GameScreen = () => {
             });
         }
         listenForNewWord()
-    }, []);
+    }, [roomNumber]);
+
+    const handleRestartGame = async () => {
+        await restartGame(roomNumber)
+    }
 
     return (
         <div>
@@ -79,6 +82,10 @@ export const GameScreen = () => {
                             <div>You are the "infiltrado"!!</div>
                             :
                             <div>Word: {gameWord}</div>
+                    }
+                    <Divider />
+                    {isHost &&
+                        <Button variant="outlined" onClick={() => handleRestartGame()}>New Word</Button>
                     }
                 </div>
             }

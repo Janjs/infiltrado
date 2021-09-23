@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from "react"
+import { useEffect, useState, useContext } from "react"
 import { db } from "../firebaseConfig";
 import { doc, onSnapshot } from "firebase/firestore";
 import { GameContext } from '../context/GameContext';
@@ -23,7 +23,7 @@ export const ListPlayers = (props) => {
             onSnapshot(doc(db, "rooms", roomNumber), (doc) => {
                 if (doc.data() !== undefined) {
                     setPlayers(doc.data().players)
-                    if (state.username == doc.data().host) {
+                    if (state.username === doc.data().host) {
                         setIsHost(true)
                         dispatch({ type: "SET_ISHOST", payload: true })
                     }
@@ -32,7 +32,7 @@ export const ListPlayers = (props) => {
             });
         }
         listenForNewPlayers()
-    }, []);
+    }, [dispatch, roomNumber, state.username]);
 
     const handleStartGamePressed = async () => {
         dispatch({ type: "SET_ROOMNUMBER", payload: roomNumber })

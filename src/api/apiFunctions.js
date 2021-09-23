@@ -47,3 +47,15 @@ export const addWord = async (roomNumber, wordEntered, infiltrat) => {
     });
 }
 
+export const restartGame = async (roomNumber) => {
+    const roomRef = doc(db, "rooms", roomNumber);
+
+    await updateDoc(roomRef, {
+        status: "LOBBY",
+        infiltrat: "",
+        word: ""
+    });
+}
+
+
+

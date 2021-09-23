@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import { useState, useContext, useRef, useEffect } from "react";
+import { useState, useContext } from "react";
 import { joinRoom } from '../api/apiFunctions';
 import { Divider } from '../components/Divider';
 import { ListPlayers } from '../components/ListPlayers';
