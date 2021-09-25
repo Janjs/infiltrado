@@ -40,7 +40,7 @@ export const StartScreen = () => {
 
     return (
         <div>
-            <h1 className="title">Inflitrado</h1>
+            <h1 className="title">Infiltrado</h1>
             {usernameAdded ?
                 <div className="start-buttons">
                     <h3>Your username: {state.username}</h3>
